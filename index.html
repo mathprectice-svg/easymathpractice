@@ -51,6 +51,75 @@
   .contact-item { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 14px 20px; border-radius: 12px; text-decoration: none; font-size: 15px; }
 
   footer { background: #1a1a2e; color: #94a3b8; text-align: center; padding: 24px; font-size: 14px; }
+
+  /* PDF Viewer Section */
+  .pdf-section { background: #f0f4ff; padding: 48px 0; }
+  .pdf-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+  .pdf-tab {
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    color: #1a3a6e;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pdf-tab:hover { border-color: #1a56db; color: #1a56db; }
+  .pdf-tab.active { background: #1a56db; border-color: #1a56db; color: #fff; }
+  .pdf-viewer-box {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    border: 2px solid #e2e8f0;
+  }
+  .pdf-viewer-header {
+    background: #1a3a6e;
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .pdf-viewer-header span { font-size: 15px; font-weight: 700; }
+  .pdf-open-btn {
+    background: #FFD700;
+    color: #1a1a2e;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .pdf-frame-wrap { position: relative; width: 100%; height: 520px; background: #f1f5f9; }
+  .pdf-frame-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+  .pdf-loading {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: #f1f5f9; color: #64748b;
+    font-size: 15px; gap: 12px;
+  }
+  .pdf-spinner {
+    width: 36px; height: 36px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #1a56db;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .pdf-notice {
+    background: #fff3cd;
+    border-left: 4px solid #FFD700;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #7a5c00;
+  }
 </style>
 
 <!-- Facebook Pixel Code -->
@@ -191,6 +260,93 @@
     </div>
   </div>
 </div>
+
+<!-- PDF VIEWER SECTION -->
+<div class="pdf-section" id="preview">
+  <div class="container">
+    <div class="section-head">
+      <h2>📄 নমুনা ফাইল দেখুন</h2>
+      <p>কেনার আগে নমুনা পেজ দেখুন — নিচে শ্রেণি বেছে নিন</p>
+    </div>
+
+    <div class="pdf-tabs">
+      <button class="pdf-tab active" onclick="loadPDF('class6', this)">৬ষ্ঠ শ্রেণি</button>
+      <button class="pdf-tab" onclick="loadPDF('class7', this)">৭ম শ্রেণি</button>
+      <button class="pdf-tab" onclick="loadPDF('class8', this)">৮ম শ্রেণি</button>
+      <button class="pdf-tab" onclick="loadPDF('ssc_gen', this)">SSC সা. গণিত</button>
+      <button class="pdf-tab" onclick="loadPDF('ssc_high', this)">SSC উ. গণিত</button>
+    </div>
+
+    <div class="pdf-viewer-box">
+      <div class="pdf-viewer-header">
+        <span id="pdf-title">📘 ৬ষ্ঠ শ্রেণি — নমুনা শিট</span>
+        <a id="pdf-drive-link" href="https://drive.google.com/drive/folders/1mYMo2YPAW1eXExRVpNlJGxv8wTELl-jT?usp=drive_link" target="_blank" class="pdf-open-btn">🔗 Google Drive-এ দেখুন</a>
+      </div>
+      <div class="pdf-frame-wrap">
+        <div class="pdf-loading" id="pdf-loading">
+          <div class="pdf-spinner"></div>
+          <span>লোড হচ্ছে...</span>
+        </div>
+        <iframe
+          id="pdf-iframe"
+          src="https://drive.google.com/embeddedfolderview?id=1mYMo2YPAW1eXExRVpNlJGxv8wTELl-jT#list"
+          onload="document.getElementById('pdf-loading').style.display='none'"
+          allow="autoplay">
+        </iframe>
+      </div>
+      <div class="pdf-notice">
+        💡 <strong>টিপস:</strong> ফাইলে ক্লিক করলে Google Drive-এ পূর্ণ পেজ দেখতে পাবেন। কিনতে নিচে স্ক্রল করুন।
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const pdfData = {
+  class6: {
+    title: '📘 ৬ষ্ঠ শ্রেণি — নমুনা শিট',
+    folderId: '1mYMo2YPAW1eXExRVpNlJGxv8wTELl-jT',
+    driveLink: 'https://drive.google.com/drive/folders/1mYMo2YPAW1eXExRVpNlJGxv8wTELl-jT?usp=drive_link'
+  },
+  class7: {
+    title: '📗 ৭ম শ্রেণি — নমুনা শিট',
+    folderId: '1H1UX_R7F_m3Zu8Oa6ZtHHNu67LvZSu02',
+    driveLink: 'https://drive.google.com/drive/folders/1H1UX_R7F_m3Zu8Oa6ZtHHNu67LvZSu02?usp=drive_link'
+  },
+  class8: {
+    title: '📙 ৮ম শ্রেণি — নমুনা শিট',
+    folderId: '1CwKB8NE2uiKq20cmCU50re13yx_jCn5o',
+    driveLink: 'https://drive.google.com/drive/folders/1CwKB8NE2uiKq20cmCU50re13yx_jCn5o?usp=drive_link'
+  },
+  ssc_gen: {
+    title: '📕 SSC সাধারণ গণিত — নমুনা শিট',
+    folderId: '1yUIvu8mqO2ktdFbxFBY1jFESC_AeePgw',
+    driveLink: 'https://drive.google.com/drive/folders/1yUIvu8mqO2ktdFbxFBY1jFESC_AeePgw?usp=drive_link'
+  },
+  ssc_high: {
+    title: '📒 SSC উচ্চতর গণিত — নমুনা শিট',
+    folderId: '1he7TcNU9sYZWBNU6mej4FbH4bLI9VmJn',
+    driveLink: 'https://drive.google.com/drive/folders/1he7TcNU9sYZWBNU6mej4FbH4bLI9VmJn?usp=drive_link'
+  }
+};
+
+function loadPDF(key, btn) {
+  // Update active tab
+  document.querySelectorAll('.pdf-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  const data = pdfData[key];
+  document.getElementById('pdf-title').textContent = data.title;
+  document.getElementById('pdf-drive-link').href = data.driveLink;
+
+  // Show loading
+  document.getElementById('pdf-loading').style.display = 'flex';
+
+  // Load iframe
+  const iframe = document.getElementById('pdf-iframe');
+  iframe.src = `https://drive.google.com/embeddedfolderview?id=${data.folderId}#list`;
+}
+</script>
 
 <footer>
   © ২০২৬ Easy Math Practice · সব অধিকার সংরক্ষিত<br>
